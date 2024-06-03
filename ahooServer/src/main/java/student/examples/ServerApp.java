@@ -4,6 +4,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class ServerApp {
     private static Player playerOne;
@@ -12,29 +16,17 @@ public class ServerApp {
     public static void main(String[] args) throws Exception {
         int port = 10001;
 
-        System.out.println("Server started!");
         ServerSocket serverSocket = new ServerSocket(port);
 
-        Socket clientSocket1 = serverSocket.accept();
-        System.out.println("Client connected!");
+        Map<String, Object> playerSocketMap = new HashMap<>();
 
-        ObjectInputStream ois1 = new ObjectInputStream(clientSocket1.getInputStream());
-        Frame frame1 = (Frame) ois1.readObject();
+        playerSocketMap.put("socket", new Socket("localhost",port));
+        playerSocketMap.put("player", new Player("Jimmy",0));
 
-        if (frame1.getHeader().equals("connect")) {
-            playerOne = (Player) frame1.getBody();
-            System.out.println("Player connected: " + playerOne.getNickname());
-        }
+        System.out.println(playerSocketMap.size());
+        System.out.println(playerSocketMap.get("socket"));
+        System.out.println(playerSocketMap.get("player"));
 
-        Socket clientSocket2 = serverSocket.accept();
-        System.out.println("Client connected!");
 
-        ObjectInputStream ois2 = new ObjectInputStream(clientSocket2.getInputStream());
-        Frame frame2 = (Frame) ois2.readObject();
-
-        if (frame2.getHeader().equals("connect")) {
-            playerTwo = (Player) frame2.getBody();
-            System.out.println("Player connected: " + playerTwo.getNickname());
-        }
     }
 }
