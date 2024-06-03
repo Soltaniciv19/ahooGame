@@ -14,19 +14,15 @@ public class ServerApp {
     private static Player playerTwo;
 
     public static void main(String[] args) throws Exception {
-        int port = 10001;
+        List<Player> players = new ArrayList<>();
+        players.add(new Player("Jimmy",100));
+        players.add(new Player("Jimmy1",1000));
+        players.add(new Player("Jimmy2",10000));
 
-        ServerSocket serverSocket = new ServerSocket(port);
+        players.forEach(ServerApp::printInBrackets);
+    }
 
-        Map<String, Object> playerSocketMap = new HashMap<>();
-
-        playerSocketMap.put("socket", new Socket("localhost",port));
-        playerSocketMap.put("player", new Player("Jimmy",0));
-
-        System.out.println(playerSocketMap.size());
-        System.out.println(playerSocketMap.get("socket"));
-        System.out.println(playerSocketMap.get("player"));
-
-
+    public static void printInBrackets(Player player){
+        System.out.println("["+player+"]");
     }
 }
